@@ -6,14 +6,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive # Garante que componentes extras sejam baixados
+
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.22.2' # Versão estável recomendada para este projeto
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk --release
+
+      - name: Install dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release --no-tree-shake-icons
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: alchemy-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
