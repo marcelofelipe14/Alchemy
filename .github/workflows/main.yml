@@ -5,16 +5,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          submodules: recursive # Garante que componentes extras sejam baixados
+          submodules: recursive
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.2' # Versão estável recomendada para este projeto
+          flutter-version: '3.22.2'
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Get dependencies
         run: |
           flutter clean
           flutter pub get
